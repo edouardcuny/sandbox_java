@@ -5,8 +5,8 @@ public class Cell {
     final private int Y;
     private int value;
     public boolean isSolved;
-    private boolean[] possibilities;
-    public static int solvedCounter;
+    public boolean[] possibilities;
+    public boolean isBroken = false;
 
     public int getValue() {
         return value;
@@ -20,7 +20,6 @@ public class Cell {
         if (value!=0){
             this.value = value;
             isSolved = true;
-            solvedCounter += 1;
             Arrays.fill(possibilities, Boolean.FALSE);
             this.possibilities[value-1] = true; // NB : on décale tout de 1 !
         }
@@ -58,9 +57,18 @@ public class Cell {
             }
             if (numberOfTrue == 1){
                 isSolved = true;
-                solvedCounter += 1;
                 value = indexOfValue+1;
             }
+            if (numberOfTrue ==0){
+                isBroken = true;
+            }
         }
+    }
+
+    public void setValue(int value){
+        this.value = value;
+        isSolved = true;
+        Arrays.fill(possibilities, Boolean.FALSE);
+        this.possibilities[value-1] = true; // NB : on décale tout de 1 !
     }
 }
