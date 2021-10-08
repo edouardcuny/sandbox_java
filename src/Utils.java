@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
     static String getStringGrid(String filePath){
@@ -19,14 +21,39 @@ public class Utils {
                 // sb.append(System.lineSeparator());
                 line = br.readLine();
             }
-            String stringGrid = sb.toString();
-            System.out.println(stringGrid);
-            return stringGrid;
+            // System.out.println(stringGrid);
+            return sb.toString();
         }
         catch (Exception e){
             System.out.println("Couldn't read file for some reason");
             return "";
         }
     }
+    static List<String> getStringGridArray(String filePath){
 
+        List<String> grids = new ArrayList<>();
+
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine();
+            StringBuilder sb = new StringBuilder();
+            while (line != null) {
+                if (line.contains("Grid")) {
+                    line = br.readLine();
+                    // on passe ici seulement à la première lecture
+                    if (!sb.toString().isEmpty()) {
+                        grids.add(sb.toString());
+                        sb.setLength(0);
+                    }
+                }
+                sb.append(line);
+                line = br.readLine();
+            }
+            grids.add(sb.toString());
+            return grids;
+        }
+        catch (Exception e){
+            System.out.println("Couldn't read file for some reason");
+            return grids;
+        }
+    }
 }
